@@ -23,4 +23,4 @@ export const toScrolla = () => tk('⌘f_f9')
 export const toHideKitty = () => tk('⌘_u')
 
 // hammerspoon
-export const setWin = (s: string) => to$(`open -g hammerspoon://moveWindow?to=${s}`)
+export const setWin = (s: string) => to$(`open -g hammerspoon://move-window?to=${s}`)
