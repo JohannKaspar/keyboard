@@ -15,6 +15,7 @@ export function mapLangChars(from: FromKeyParam & ToKeyParam, prefix: ShortTo) {
 export function mapLangSet(from: FromKeyParam & ToKeyParam, language: string) {
     return map(from).to(from)
         .condition(ifVar('lang', language).unless())
+        .toIfHeldDown(from)
         .toIfAlone(toSetVar('lang', language))
         .to(toDelayedSetVar('lang', false));
 }
