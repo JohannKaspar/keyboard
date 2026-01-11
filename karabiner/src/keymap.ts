@@ -18,9 +18,9 @@ writeToProfile('karabiner.ts',
         rule('thumb keys').manipulators([
             map('␣', 'optionalAny').to('left⇧').toIfAlone('␣'),
 
-            map('left⌘').to('left⌘').toIfAlone(toSynapse()),
-            map('right⌘').to('right⌘').condition(ifApp('kitty').unless()).toIfAlone(toApp('kitty')),
-            map('right⌘').to('right⌘').condition(ifApp('kitty')).toIfAlone(toHideKitty()),
+            map('left⌘').to('left⌘').condition(ifApp('kitty').unless()).toIfAlone(toApp('kitty')),
+            map('left⌘').to('left⌘').condition(ifApp('kitty')).toIfAlone(toHideKitty()),
+            map('right⌘').to('right⌘').toIfAlone(toSynapse()),
             mouseMotionToScroll().modifiers('right⌘').options({ speed_multiplier: 2 }),
 
             mapLangSet('left⌥', 'spanish'),
