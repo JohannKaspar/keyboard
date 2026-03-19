@@ -23,8 +23,7 @@ writeToProfile('karabiner.ts',
             map('right⌘').to('right⌘').toIfAlone(toSynapse()),
             mouseMotionToScroll().modifiers('right⌘').options({ speed_multiplier: 2 }),
 
-            mapLangSet('left⌥', 'spanish'),
-            mapLangSet('right⌥', 'german'),
+            mapLangSet('left⌥', 'german'),
         ]),
 
 
@@ -93,13 +92,6 @@ writeToProfile('karabiner.ts',
         uniformSimlayer('p', 'control-mode-p', (k) => map(k).to(tk(`⌃_${k as ToKeyParam}`))),
 
         // LANGUAGES -----------------------------------------------------------
-        // spanish
-        rule('spanish characters', ifLang('spanish')).manipulators([
-            mapLangChars('n', '⌥_n'),
-            withMapper(['a', 'e', 'i', 'o', 'u'])((k) => mapLangChars(k, '⌥_e')),
-        ]),
-
-        // german
         rule('german characters', ifLang('german')).manipulators([
             map('s').to(tk('⌥_s')).toUnsetVar('lang'),
             withMapper(['a', 'o', 'u'])((k) => mapLangChars(k, '⌥_u')),
@@ -125,9 +117,9 @@ writeToProfile('karabiner.ts',
     ],
     {
        'basic.to_if_alone_timeout_milliseconds': 300,
-       'basic.to_if_held_down_threshold_milliseconds': 50,
+       'basic.to_if_held_down_threshold_milliseconds': 80,
        'basic.to_delayed_action_delay_milliseconds': 500,
-       'basic.simultaneous_threshold_milliseconds': 20,
+       'basic.simultaneous_threshold_milliseconds': 30,
     }
 );
 
