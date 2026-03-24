@@ -13,11 +13,18 @@ export function mapLangChars(from: FromKeyParam & ToKeyParam, prefix: ShortTo) {
 
 // set language var
 export function mapLangSet(from: FromKeyParam & ToKeyParam, language: string) {
-    return map(from).to(from)
+    return map(from, 'optionalAny').to(from)
         .condition(ifVar('lang', language).unless())
         .toIfHeldDown(from)
         .toIfAlone(toSetVar('lang', language))
         .to(toDelayedSetVar('lang', false));
+}
+
+// hold key to enable a temporary language mode while pressed
+export function mapLangHold(from: FromKeyParam & ToKeyParam, language: string) {
+    return map(from, 'optionalAny')
+        .condition(ifVar('lang', language).unless())
+        .toVar('lang', language, false);
 }
 
 // language var condition

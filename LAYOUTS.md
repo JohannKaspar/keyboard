@@ -1,37 +1,22 @@
 # Keyboard Layout Visualizations
 
-These diagrams are source-backed views derived from `firmware/corne.keymap` and `karabiner/src/keymap.ts`.
-
-Modifier label convention in this document: firmware `LCTRL` is shown as `LCTRL`, `LALT`/`RALT` is shown as `LOPT`/`ROPT`, and `LCMD`/`RCMD` is preserved as-is.
-
-## Corne Firmware
-
-Base layer from `firmware/corne.keymap`:
-
-```text
-+------+------+------+------+------+    +------+------+------+------+------+
-|  Q   |  W   |  E   |  R   |  T   |    |  Y   |  U   |  I   |  O   |  P   |
-+------+------+------+------+------+    +------+------+------+------+------+
-|  A   |  S   |  D   |  F   |  G   |    |  H   |  J   |  K   |  L   |  ;   |
-+------+------+------+------+------+    +------+------+------+------+------+
-|  Z   |  X   |  C   |  V   |  B   |    |  N   |  M   |  ,   |  .   |  /   |
-+------+------+------+------+------+    +------+------+------+------+------+
-
-              +------+------+------+    +------+------+------+
-              | LCTRL| LOPT | LCMD |    | RCMD | SPACE| CAPS |
-              +------+------+------+    +------+------+------+
-```
-
-Firmware combos:
-
-- `S+D` -> `TAB`
-- `D+F` -> `BSPC`
-- `J+K` -> `ESC`
-- `K+L` -> `RET`
+These diagrams are source-backed views derived from the Karabiner config in `karabiner/src/keymap.ts`.
 
 ## Karabiner Base
 
-Alpha trigger grid from `karabiner/src/keymap.ts`:
+Current base output with macOS German input source (`QWERTZ`):
+
+```text
++------+------+------+------+------+    +------+------+------+------+------+
+|  Q   |  W   |  E   |  R   |  T   |    |  Z   |  U   |  I   |  O   |  P   |
++------+------+------+------+------+    +------+------+------+------+------+
+|  A   |  S   |  D   |  F   |  G   |    |  H   |  J   |  K   |  L   |  Ö   |
++------+------+------+------+------+    +------+------+------+------+------+
+|  Y   |  X   |  C   |  V   |  B   |    |  N   |  M   |  ,   |  .   |  -   |
++------+------+------+------+------+    +------+------+------+------+------+
+```
+
+Karabiner source trigger grid from `karabiner/src/keymap.ts`:
 
 ```text
 +------+------+------+------+------+    +------+------+------+------+------+
@@ -40,15 +25,32 @@ Alpha trigger grid from `karabiner/src/keymap.ts`:
 |  A   |  S   |  D   |  F   |  G   |    |  H   |  J   |  K   |  L   |  ;   |
 +------+------+------+------+------+    +------+------+------+------+------+
 |  Z   |  X   |  C   |  V   |  B   |    |  N   |  M   |  ,   |  .   |  /   |
++------+------+------+------+------+    +------+------+------+------+------+
+```
+
+The output diagram above shows what you type. The trigger grid below it is still the source of truth for combos and layer activators in the Karabiner config.
+
+## Experimental anymak:END Alpha
+
+`karabiner/src/end.ts` keeps the same thumbs, combos, layers, and app-specific rules as
+`karabiner/src/keymap.ts`. Only the base alpha output changes.
+
+```text
++------+------+------+------+------+    +------+------+------+------+------+
+|  Q   |  K   |  O   |  U   |  Y   |    |  V   |  D   |  C   |  L   |  F   |
++------+------+------+------+------+    +------+------+------+------+------+
+|  H   |  A   |  E   |  I   |  ,   |    |  G   |  T   |  R   |  N   |  S   |
++------+------+------+------+------+    +------+------+------+------+------+
+|  ;   |  Z   |  J   |  .   |  X   |    |  B   |  P   |  M   |  W   |  /   |
 +------+------+------+------+------+    +------+------+------+------+------+
 ```
 
 Thumb and modifier behavior:
 
-- `SPACE`: hold -> `LSHIFT`, tap -> space
+- `SPACE`: tap/hold -> space, but with `CMD` held a tap stays `CMD+SPACE` and a hold becomes `CMD+SHIFT`
 - `L_CMD`: hold -> `L_CMD`, tap -> open/hide Kitty
 - `R_CMD`: hold -> `R_CMD`, tap -> Synapse, plus mouse-motion scroll modifier
-- `L_OPT`: hold -> `L_OPT`, tap -> German accent mode
+- `CAPS`: hold -> German accent mode
 
 Combos:
 
@@ -148,9 +150,9 @@ Hold `P`:
 
 ## Language Helpers
 
-Tap `L_OPT` to arm a temporary German accent mode:
+Hold `CAPS` to enable temporary German accent mode:
 
-- German on `L_OPT`: `S` -> `ss`, `A/O/U` -> umlaut variants
+- German while holding `CAPS`: `S` -> `ss`, `A/O/U` -> umlaut variants
 
 ## App-Specific Extras
 

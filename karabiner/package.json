@@ -2,7 +2,9 @@
   "name": "karabiner-config",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsx src/keymap.ts",
+    "build": "tsx src/keymap.ts && tsx src/end.ts",
+    "build:current": "tsx src/keymap.ts",
+    "build:end": "tsx src/end.ts",
     "update": "yarn update karabiner.ts"
   },
   "devDependencies": {

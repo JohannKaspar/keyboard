@@ -11,9 +11,14 @@ import { combi } from './combis';
 import { ifLang, mapLangChars, mapLangHold } from './languages';
 import { fullSimlayer, uniformSimlayer } from './layers';
 import { tk, resolveChar, toDelayedSetVar } from './shared';
-import { kVmapTextObjects, kVnnoremap, setWin, toHideKitty, toScrolla, toSynapse, toWooshy } from './apps';
+import { kVmapTextObjects, kVnnoremap, setWin, toHideKitty, toSynapse, toWooshy } from './apps';
 
-writeToProfile('karabiner.ts',
+const alpha = (from: FromKeyParam, to: ToKeyParam) => [
+    map(from).to(to),
+    map(from, '⇧').to(to, '⇧'),
+];
+
+writeToProfile('end.ts',
     [
         // THUMB KEYS ----------------------------------------------------------
         rule('thumb keys').manipulators([
@@ -80,7 +85,7 @@ writeToProfile('karabiner.ts',
 
         // LAYERS --------------------------------------------------------------
         // chars
-        fullSimlayer(['a', ';'], 'char-mode', {
+        fullSimlayer('a', 'char-mode', {
             w: '~', e: '`', r: '^', t: '$',  y: '#', u: '*',  i:  '[',  o:  ']',
             s: '"', d: "'", f: '|', g: '\\', h: '%', j: '-',  k:  '(',  l:  ')',
             x: '+', c: '=', v: '!', b: '@',  n: '&', m: '_', ',': '{', '.': '}'
@@ -124,6 +129,51 @@ writeToProfile('karabiner.ts',
             })
         ]),
 
+        // BASE LAYOUT ---------------------------------------------------------
+        // Keep this late so app rules, combos, language helpers, and simlayers
+        // still match the physical source keys before the alpha remap runs.
+        //
+        // anymak:END 5-column alpha block adapted from the QWERTY test-drive:
+        //   Q  K  O  U  Y     V  D  C  L  F
+        //   H  A  E  I  ,     G  T  R  N  S
+        //   /  Z  '  .  X     B  P  M  W  ;
+        rule('anymak end alpha').manipulators([
+            ...alpha('q', 'q'),
+            ...alpha('w', 'k'),
+            ...alpha('e', 'o'),
+            ...alpha('r', 'u'),
+            ...alpha('t', 'y'),
+
+            ...alpha('a', 'h'),
+            ...alpha('s', 'a'),
+            ...alpha('d', 'e'),
+            ...alpha('f', 'i'),
+            ...alpha('g', ','),
+
+            ...alpha('z', '/'),
+            ...alpha('x', 'z'),
+            ...alpha('c', "'"),
+            ...alpha('v', '.'),
+            ...alpha('b', 'x'),
+
+            ...alpha('y', 'v'),
+            ...alpha('u', 'd'),
+            ...alpha('i', 'c'),
+            ...alpha('o', 'l'),
+            ...alpha('p', 'f'),
+
+            ...alpha('h', 'g'),
+            ...alpha('j', 't'),
+            ...alpha('k', 'r'),
+            ...alpha('l', 'n'),
+
+            ...alpha('n', 'b'),
+            ...alpha('m', 'p'),
+            ...alpha(',', 'm'),
+            ...alpha('.', 'w'),
+            ...alpha('/', ';'),
+        ]),
+
         // MISC ----------------------------------------------------------------
         rule('disable caps').manipulators([
             map('caps_lock', 'optionalAny').toNone()
@@ -136,4 +186,3 @@ writeToProfile('karabiner.ts',
        'basic.simultaneous_threshold_milliseconds': 30,
     }
 );
-
