@@ -6,6 +6,7 @@ import {
     ifApp, ifVar,
     mouseMotionToScroll,
     to$,
+    simlayer,
 } from 'karabiner.ts'
 import { combi } from './combis';
 import { ifLang, mapLangChars, mapLangHold } from './languages';
@@ -36,6 +37,8 @@ writeToProfile('karabiner.ts',
                 .to(({ key_code: 'apple_display_brightness_decrement' } as any)),
             map(({ key_code: 'vk_consumer_brightness_up', modifiers: { mandatory: ['shift'] } } as any))
                 .to(({ key_code: 'vk_consumer_brightness_down' } as any)),
+            mapConsumerKey('mute')
+                .to(to$('open -g hammerspoon://audio-output-toggle')),
             mapConsumerKey('play_or_pause')
                 .to(to$('open -g hammerspoon://media-control?key=play_or_pause')),
         ]),
@@ -79,19 +82,28 @@ writeToProfile('karabiner.ts',
 
 
         // LAYERS --------------------------------------------------------------
-        // chars
-        fullSimlayer(['a', ';'], 'char-mode', {
-            w: '~', e: '`', r: '^', t: '$',  y: '#', u: '*',  i:  '[',  o:  ']',
-            s: '"', d: "'", f: '|', g: '\\', h: '%', j: '-',  k:  '(',  l:  ')',
-            x: '+', c: '=', v: '!', b: '@',  n: '&', m: '_', ',': '{', '.': '}'
-        } as const, (k, v) => map(k).to(resolveChar(v))),
+        // chars: each trigger key affects only the opposite hand
+        simlayer('a', 'char-mode-right').manipulators([
+            withMapper({
+                y: '#', u: '*', i: '[', o: ']',
+                h: '%', j: '-', k: '(', l: ')',
+                n: '&', m: '_', ',': '{', '.': '}'
+            } as const)((k, v) => map(k).to(resolveChar(v))),
+        ]),
+        simlayer(';', 'char-mode-left').manipulators([
+            withMapper({
+                w: '~', e: '`', r: '^', t: '$',
+                s: '"', d: "'", f: '|', g: '\\',
+                x: '+', c: '=', v: '!', b: '@',
+            } as const)((k, v) => map(k).to(resolveChar(v))),
+        ]),
 
         // numbers
-        fullSimlayer('z', 'number-mode', {
-                  u: 7,  i:  8,  o:  9,
-                  j: 4,  k:  5,  l:  6,
-            n: 0, m: 1, ',': 2, '.': 3,
-        } as const, (k, i) => map(k).to(`keypad_${i as 0}`)),
+        fullSimlayer<FromKeyParam, ToKeyParam>('z', 'number-mode', {
+                  u: '7',  i: '8',  o: '9',
+                  j: '4',  k: '5',  l: '6',
+            n: '0', m: '1', ',': '2', '.': '3',
+        } as const, (k, digit) => map(k).to(digit)),
 
         // gui
         fullSimlayer<FromKeyParam, ToEvent>('/', 'gui-mode', {
@@ -130,10 +142,10 @@ writeToProfile('karabiner.ts',
         ]),
     ],
     {
-       'basic.to_if_alone_timeout_milliseconds': 300,
+       'basic.to_if_alone_timeout_milliseconds': 500,
        'basic.to_if_held_down_threshold_milliseconds': 80,
        'basic.to_delayed_action_delay_milliseconds': 500,
-       'basic.simultaneous_threshold_milliseconds': 30,
+       'basic.simultaneous_threshold_milliseconds': 15,
     }
 );
 
