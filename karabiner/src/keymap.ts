@@ -14,6 +14,9 @@ import { fullSimlayer, uniformSimlayer } from './layers';
 import { tk, resolveChar, toDelayedSetVar } from './shared';
 import { kVmapTextObjects, kVnnoremap, setWin, toHideKitty, toScrolla, toSynapse, toWooshy } from './apps';
 
+const germanInputSource = { language: 'de' } as const;
+const usInputSource = { language: 'en' } as const;
+
 writeToProfile('karabiner.ts',
     [
         // THUMB KEYS ----------------------------------------------------------
@@ -27,6 +30,12 @@ writeToProfile('karabiner.ts',
             mouseMotionToScroll().modifiers('right⌘').options({ speed_multiplier: 2 }),
 
             mapLangHold('caps_lock', 'german'),
+            map('keypad_num_lock')
+                .condition({ type: 'input_source_if', input_sources: [germanInputSource] })
+                .to({ select_input_source: usInputSource }),
+            map('keypad_num_lock')
+                .condition({ type: 'input_source_unless', input_sources: [germanInputSource] })
+                .to({ select_input_source: germanInputSource }),
         ]),
 
         rule('media keys').manipulators([
@@ -108,7 +117,7 @@ writeToProfile('karabiner.ts',
         // gui
         fullSimlayer<FromKeyParam, ToEvent>('/', 'gui-mode', {
             q: tk('⌘_='),  w: tk('⌘_-'), e: setWin('0,0_1x1'), r: setWin('next_screen'), t: setWin('1,0_1x1'), y: setWin('0,0_2x1'),
-            a: toWooshy(), s: tk('⌘_0'), d: setWin('0,0_1x2'), f: setWin('0,0_2x2'),     g: setWin('1,0_1x2'),
+            a: toWooshy(), s: tk('⌘_`'), d: setWin('0,0_1x2'), f: setWin('0,0_2x2'),     g: setWin('1,0_1x2'),
             z: tk('⌘_['),  x: tk('⌘_]'), c: setWin('0,1_1x1'), v: setWin('prev_screen'), b: setWin('1,1_1x1'), n: setWin('0,1_2x1'),
         } as const, (k, v) => map(k).to(v)),
 
