@@ -1,6 +1,6 @@
 import {
     writeToProfile,
-    rule, map, mapConsumerKey, withMapper,
+    rule, map, mapConsumerKey, mapSimultaneous, withMapper,
     FromKeyParam,
     toApp, ToEvent, ToKeyParam,
     ifApp, ifVar,
@@ -63,6 +63,8 @@ writeToProfile('end.ts',
             // UPPER ROW
             combi('we').to('↑'),
             combi('er').to('→'),
+            mapSimultaneous(['a', 'e'], { key_down_order: 'insensitive' }, 120).modifiers('⇧', 'any').to(tk('⌘⇧_3')),
+            mapSimultaneous(['a', 'r'], { key_down_order: 'insensitive' }, 120).modifiers('⇧', 'any').to(tk('⌘⇧_4')),
             combi('ui').condition(ifApp('kitty')).to(tk('⌃_u')),
             combi('io').condition(ifApp('kitty')).to(tk('⌃_o')),
             combi('io').condition(ifApp('Xcode')).to(tk('⌘⇧_o')),
