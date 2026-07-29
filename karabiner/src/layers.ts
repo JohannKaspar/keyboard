@@ -1,4 +1,4 @@
-import { simlayer, map, withMapper, FromKeyParam, LayerKeyParam } from 'karabiner.ts';
+import { layer, simlayer, map, withMapper, FromKeyParam, LayerKeyParam } from 'karabiner.ts';
 
 
 // `withFullMapper` always maps `allKeys` (except for `ignoreKeys`), ommitted
@@ -31,6 +31,19 @@ export function withFullMapper<const K extends string | number, const V>(
             return map(k as FromKeyParam).toNone()
         });
     }
+}
+
+
+// helper to make full layer by omitting none-map for layer key(s)
+export function fullLayer<const K extends string | number, const V>(
+    key: LayerKeyParam | LayerKeyParam[],
+    varName: string | undefined,
+    mapping: Partial<Record<K, V>>,
+    mapper: Parameters<ReturnType<typeof withFullMapper<K, V>>>[0],
+): ReturnType<typeof layer> {
+    return layer(key, varName).manipulators([
+        withFullMapper(mapping, Array.isArray(key) ? key : [key])(mapper)
+    ])
 }
 
 

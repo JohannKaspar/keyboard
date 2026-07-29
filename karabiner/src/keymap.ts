@@ -10,7 +10,7 @@ import {
 } from 'karabiner.ts'
 import { combi } from './combis';
 import { ifLang, mapLangChars, mapLangHold } from './languages';
-import { fullSimlayer, uniformSimlayer } from './layers';
+import { fullLayer, fullSimlayer, uniformSimlayer } from './layers';
 import { tk, resolveChar, toDelayedSetVar } from './shared';
 import { kVmapTextObjects, kVnnoremap, setWin, toHideKitty, toScrolla, toSynapse, toWooshy } from './apps';
 
@@ -23,6 +23,8 @@ writeToProfile('karabiner.ts',
         rule('thumb keys').manipulators([
             map('␣', 'left⌘').toIfAlone('␣', 'left⌘').toIfHeldDown('left⇧', 'left⌘'),
             map('␣', 'right⌘').toIfAlone('␣', 'right⌘').toIfHeldDown('left⇧', 'right⌘'),
+            map('␣', 'left⌃').toIfAlone('␣', 'left⌃').toIfHeldDown('left⇧', 'left⌃'),
+            map('␣', 'right⌃').toIfAlone('␣', 'right⌃').toIfHeldDown('left⇧', 'right⌃'),
 
             map('left⌘').to('left⌘').condition(ifApp('kitty').unless()).toIfAlone(toApp('kitty')),
             map('left⌘').to('left⌘').condition(ifApp('kitty')).toIfAlone(toHideKitty()),
@@ -109,8 +111,8 @@ writeToProfile('karabiner.ts',
             } as const)((k, v) => map(k).to(resolveChar(v))),
         ]),
 
-        // numbers
-        fullSimlayer<FromKeyParam, ToKeyParam>('z', 'number-mode', {
+        // numbers: layer (not simlayer) so hold-z-then-tap digits works reliably
+        fullLayer<FromKeyParam, ToKeyParam>('z', 'number-mode', {
                   u: '7',  i: '8',  o: '9',
                   j: '4',  k: '5',  l: '6',
             n: '0', m: '1', ',': '2', '.': '3',
